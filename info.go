@@ -182,3 +182,19 @@ func scanFdInfoReader(r io.Reader, fields map[string]interface{}) error {
 
 	return nil
 }
+
+// EnableStats starts the measuring of the runtime (in ns)
+// and run counts.
+//
+// Requires at least 5.8.
+func EnableStats() error {
+	attr := internal.BPFEnableStatsAttr{
+		StatsTyp: internal.BPF_STATS_RUN_TIME,
+	}
+
+	return internal.BPFEnableStats(&attr)
+}
+
+var canEnableStats = internal.FeatureTest("can enable stats", "5.8", func() error {
+	return EnableStats()
+})

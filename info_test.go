@@ -139,3 +139,7 @@ func TestScanFdInfoReader(t *testing.T) {
 		}
 	}
 }
+
+func TestCanEnableStats(t *testing.T) {
+	testutils.CheckFeatureTest(t, canEnableStats)
+}

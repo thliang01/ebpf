@@ -91,6 +91,19 @@ func BPFProgDetach(attr *BPFProgDetachAttr) error {
 	return err
 }
 
+const (
+	BPF_STATS_RUN_TIME = iota
+)
+
+type BPFEnableStatsAttr struct {
+	StatsTyp uint32
+}
+
+func BPFEnableStats(attr *BPFEnableStatsAttr) error {
+	_, err := BPF(BPF_ENABLE_STATS, unsafe.Pointer(attr), unsafe.Sizeof(*attr))
+	return err
+}
+
 type bpfObjAttr struct {
 	fileName  Pointer
 	fd        uint32

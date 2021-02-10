@@ -613,6 +613,24 @@ func (p *Program) ID() (ProgramID, error) {
 	return ProgramID(info.id), nil
 }
 
+// ProgStats holds statistics of a program.
+type ProgStats struct {
+	RunTimeNs uint64
+	RunCnt    uint64
+}
+
+// Stats returns measured statistics of a the program.
+func (p *Program) Stats() (ProgStats, error) {
+	info, err := bpfGetProgInfoByFD(p.fd)
+	if err != nil {
+		return ProgStats{}, err
+	}
+	return ProgStats{
+		RunTimeNs: info.run_time_ns,
+		RunCnt:    info.run_cnt,
+	}, nil
+}
+
 func findKernelType(name string, typ btf.Type) error {
 	kernel, err := btf.LoadKernelSpec()
 	if err != nil {
